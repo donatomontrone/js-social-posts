@@ -104,12 +104,15 @@ posts.forEach((post, index) => {
     //Inizalizzo la variabile per l'img dell'icona del post
     const profileImg = getNewElement(postIconElement, 'img');
     profileImg.classList.add('profile-pic');
-
     profileImg.src = post.author.image;
+    profileImg.alt = post.author.name;
+
     if (post.author.image === null) {
-        profileImg.innerHTML = "<p>ciao</p>";
+        profileImg.remove();
+        postIconElement.classList.add('profile-pic-default')
+        const spanAuthorElement= getNewElement(postIconElement, 'span');
+        spanAuthorElement.innerHTML = (post.author.name.match(/\b(\w)/g).join(""));
     }
-    profileImg.alt = `${post.author.name} profile image`;
 
     //Inizializzo la variabile con i dati dell'utente
     const postDataElement = getNewElement(postMediaElement, 'div');
@@ -154,7 +157,6 @@ posts.forEach((post, index) => {
     //Inizializza la variabile per il tag a e aggiungo href classi e un attributo per l'id;
     const aElement = getNewElement(likeButton, 'a');
     aElement.classList.add('like-button','js-like-button')
-    aElement.href = '#';
     aElement.setAttribute(dataAttribute, post.id);
 
     //Inizializzo l'icona del pollice per il like
@@ -171,6 +173,12 @@ posts.forEach((post, index) => {
     counterLikeElement.classList.add('likes__counter');
     counterLikeElement.innerHTML = `Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone`;
 
+aElement.addEventListener(('click'), function(){
+    aElement.classList.add('like-button--liked');
+    post.author.like += 1;
+})
 });
+
+
 
 
