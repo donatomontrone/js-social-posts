@@ -78,6 +78,9 @@ const posts = [
     }
 ];
 
+//Inizializzo una variabile per l'attributo custom
+const dataAttribute = "data-postid";
+
 //Inizializzo la variabile del parent a cui inseirò tutto il contenuto
 const containerElement = document.querySelector('div.posts-list');
 
@@ -86,55 +89,88 @@ posts.forEach((post, index) => {
     const postElement = getNewElement(containerElement, 'div');
     postElement.classList.add('post');
 
-        //Iniazializzo la variabile del header post e ci aggiungo la classe post__header
-        const postHeaderElement = getNewElement(postElement, 'div');
-        postHeaderElement.classList.add('post__header');
+    //Iniazializzo la variabile del header post e ci aggiungo la classe post__header
+    const postHeaderElement = getNewElement(postElement, 'div');
+    postHeaderElement.classList.add('post__header');
 
-            //Inizializzo la variabile con i dati principali dell'utente
-            const postMediaElement = getNewElement(postHeaderElement, 'div');
-            postMediaElement.classList.add('post-meta');
+    //Inizializzo la variabile con i dati principali dell'utente
+    const postMediaElement = getNewElement(postHeaderElement, 'div');
+    postMediaElement.classList.add('post-meta');
 
-                //Iniazializzo la variabile dell'icona dell'utente e ci aggiungo la classe post-meta__icon
-                const postIconElement = getNewElement(postMediaElement, 'div');
-                postIconElement.classList.add('post-meta__icon');
-                    //Inizalizzo la variabile per l'img dell'icona del post
-                    const profileImg = getNewElement(postIconElement, 'img');
-                    //!QUI DOVRO' INSERIRE LA CLASSE ALLA IMG, IL SEARCH E L'ALT
+    //Iniazializzo la variabile dell'icona dell'utente e ci aggiungo la classe post-meta__icon
+    const postIconElement = getNewElement(postMediaElement, 'div');
+    postIconElement.classList.add('post-meta__icon');
 
-                //Inizializzo la variabile con i dati dell'utente
-                const postDataElement = getNewElement(postMediaElement, 'div');
-                postDataElement.classList.add('post-meta__data');
-                    //Inizializzo la variabile per l'autore del post
-                    const postAuthorElement = getNewElement(postDataElement, 'div');
-                    postAuthorElement.classList.add('post-meta__author');
-                    //! QUI DOVRO' INSERIRE I DATI DELL'AUTORE PRESENTI NELL'ARRAY
-                    //Inizializzo la variabile per la data del post
-                    const postTimeElement = getNewElement(postDataElement, 'div');
-                    postTimeElement.classList.add('post-meta__time');
-                    //! QUI DOVRO' INSERIRE LE DATE DEL POST PRESENTI NELL'ARRAY
-        //Iniazializzo la variabile per il contenuto del post
-        const postTextElement = getNewElement(postElement, 'div');
-        postTextElement.classList.add('post__text');
-        //! QUI ANDRO' AD INSERIRE I CONTENUTI DEL POST PRESENTI NELL'ARRAY
-        //Iniazializzo la variabile per il contenuto del post
-        const postImageElement = getNewElement(postElement, 'div');
-        postImageElement.classList.add('post__image');
-            //Inizializzo la variabile dell'effettiva img del post
-            const postImg = getNewElement(postImageElement, 'img');
-            //!QUI DOVRO' INSERIRE LA CLASSE ALLA IMG, IL SEARCH E L'ALT
-        //Inizializzo la variabile per il footer del post
-        const postFooterElement = getNewElement(postElement, 'div');
-        postFooterElement.classList.add('post__footer');
-            //Inizializzo la variabile per il tasto like nel footer
-            const likeElement = getNewElement(postFooterElement, 'div');
-            likeElement.classList.add('likes', 'js-likes');
-                //Inizializzo la variabile per il pollicione il su
-                const likeButton = getNewElement(likeElement, 'div');
-                likeButton.classList.add('likes__cta');
-                //! QUI DOVRO AGGIUNGERE IL TAG A CON HREF E DATA.POSTID E APPENDERLE UNA TAG I PER L'ICONA DEL POLLICE E UNO SPAN PER LA SCRITTA MI PIACE
-                const counterLikeElement = getNewElement(likeElement, 'div');
-                counterLikeElement.classList.add('likes__counter');
-                //!QUI DOVRO AGGIUNGERE "PIACE A" UN TAG B PER IL COUNTER "PERSONE"
+    //Inizalizzo la variabile per l'img dell'icona del post
+    const profileImg = getNewElement(postIconElement, 'img');
+    profileImg.classList.add('profile-pic');
+
+    profileImg.src = post.author.image;
+    if (post.author.image === null) {
+        profileImg.innerHTML = "<p>ciao</p>";
+    }
+    profileImg.alt = `${post.author.name} profile image`;
+
+    //Inizializzo la variabile con i dati dell'utente
+    const postDataElement = getNewElement(postMediaElement, 'div');
+    postDataElement.classList.add('post-meta__data');
+
+    //Inizializzo la variabile per l'autore del post
+    const postAuthorElement = getNewElement(postDataElement, 'div');
+    postAuthorElement.classList.add('post-meta__author');
+    postAuthorElement.innerHTML = post.author.name;
+
+        //Inizializzo la variabile per la data del post
+        const postTimeElement = getNewElement(postDataElement, 'div');
+        postTimeElement.classList.add('post-meta__time');
+        postTimeElement.innerHTML = post.created;
+
+    //Iniazializzo la variabile per il contenuto del post
+    const postTextElement = getNewElement(postElement, 'div');
+    postTextElement.classList.add('post__text');
+    postTextElement.innerHTML = post.content;
+
+    //Iniazializzo la variabile per il contenuto del post
+    const postImageElement = getNewElement(postElement, 'div');
+    postImageElement.classList.add('post__image');
+
+    //Inizializzo la variabile dell'effettiva img del post
+    const postImg = getNewElement(postImageElement, 'img');
+    postImg.src = post.media;
+    postImg.alt = `${post.author.name} post image`;
+
+    //Inizializzo la variabile per il footer del post
+    const postFooterElement = getNewElement(postElement, 'div');
+    postFooterElement.classList.add('post__footer');
+
+    //Inizializzo la variabile per il tasto like nel footer
+    const likeElement = getNewElement(postFooterElement, 'div');
+    likeElement.classList.add('likes', 'js-likes');
+
+    //Inizializzo la variabile per il pollicione il su
+    const likeButton = getNewElement(likeElement, 'div');
+    likeButton.classList.add('likes__cta');
+
+    //Inizializza la variabile per il tag a e aggiungo href classi e un attributo per l'id;
+    const aElement = getNewElement(likeButton, 'a');
+    aElement.classList.add('like-button','js-like-button')
+    aElement.href = '#';
+    aElement.setAttribute(dataAttribute, post.id);
+
+    //Inizializzo l'icona del pollice per il like
+    const iconLikeElement = getNewElement(aElement, 'i');
+    iconLikeElement.classList.add('like-button__icon', 'fas', 'fa-thumbs-up');
+    iconLikeElement.ariaHidden = "true";
+
+    //Inizializzo la variabile per la scritta mi piace accanto al'icona
+    const spanLikeElement = getNewElement(aElement, 'span');
+    spanLikeElement.classList.add('like-button__label');
+    spanLikeElement.append('Mi Piace');
+    
+    const counterLikeElement = getNewElement(likeElement, 'div');
+    counterLikeElement.classList.add('likes__counter');
+    counterLikeElement.innerHTML = `Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone`;
+
 });
 
 
