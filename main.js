@@ -78,7 +78,6 @@ const posts = [
     }
 ];
 
-let clicked = false;
 
 //Inizializzo una variabile per l'attributo custom
 const dataAttribute = "data-postid";
@@ -125,10 +124,10 @@ posts.forEach((post, index) => {
     postAuthorElement.classList.add('post-meta__author');
     postAuthorElement.innerHTML = post.author.name;
 
-        //Inizializzo la variabile per la data del post
-        const postTimeElement = getNewElement(postDataElement, 'div');
-        postTimeElement.classList.add('post-meta__time');
-        postTimeElement.innerHTML = post.created;
+    //Inizializzo la variabile per la data del post
+    const postTimeElement = getNewElement(postDataElement, 'div');
+    postTimeElement.classList.add('post-meta__time');
+    postTimeElement.innerHTML = post.created;
 
     //Iniazializzo la variabile per il contenuto del post
     const postTextElement = getNewElement(postElement, 'div');
@@ -175,18 +174,14 @@ posts.forEach((post, index) => {
     counterLikeElement.classList.add('likes__counter');
     counterLikeElement.innerHTML = `Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone`;
 
-aElement.addEventListener(('click'), function(){
-    if (aElement.classList.contains('like-button--liked')) {
-        aElement.classList.remove('like-button--liked');
-        post.likes--;
+    aElement.addEventListener(('click'), function(){
+        if (aElement.classList.contains('like-button--liked')) {
+            aElement.classList.remove('like-button--liked');
+            post.likes--;
+        } else {
+            aElement.classList.add('like-button--liked'); 
+            post.likes++;
+        }
         counterLikeElement.innerHTML = `Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone`;
-    } else {
-        aElement.classList.add('like-button--liked'); 
-        post.likes++;
-        counterLikeElement.innerHTML = `Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone`;
-    }
-});
-});
-
-
-
+    });
+})
