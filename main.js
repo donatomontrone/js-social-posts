@@ -78,12 +78,13 @@ const posts = [
     }
 ];
 
-
-//Inizializzo una variabile per l'attributo custom
-const dataAttribute = "data-postid";
+const likedPost =[];
 
 //Inizializzo la variabile del parent a cui inseirò tutto il contenuto
 const containerElement = document.querySelector('div.posts-list');
+
+//Inizializzo una variabile per l'attributo custom
+const dataAttribute = "data-postid";
 
 posts.forEach((post, index) => {
     //Iniazializzo la variabile dell'elemento generico Post e ci aggiungo la classe post
@@ -127,8 +128,10 @@ posts.forEach((post, index) => {
     //Inizializzo la variabile per la data del post
     const postTimeElement = getNewElement(postDataElement, 'div');
     postTimeElement.classList.add('post-meta__time');
-    postTimeElement.innerHTML = post.created;
+    let dataPost = new Date(post.created);
+    const dataItaly = dataPost.toLocaleString();
 
+    postTimeElement.innerHTML = dataItaly;
     //Iniazializzo la variabile per il contenuto del post
     const postTextElement = getNewElement(postElement, 'div');
     postTextElement.classList.add('post__text');
@@ -159,6 +162,7 @@ posts.forEach((post, index) => {
     const aElement = getNewElement(likeButton, 'a');
     aElement.classList.add('like-button','js-like-button')
     aElement.setAttribute(dataAttribute, post.id);
+    aElement.href = '#';
 
     //Inizializzo l'icona del pollice per il like
     const iconLikeElement = getNewElement(aElement, 'i');
@@ -174,14 +178,20 @@ posts.forEach((post, index) => {
     counterLikeElement.classList.add('likes__counter');
     counterLikeElement.innerHTML = `Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone`;
 
-    aElement.addEventListener(('click'), function(){
+    aElement.addEventListener(('click'), function(event){
+
         if (aElement.classList.contains('like-button--liked')) {
             aElement.classList.remove('like-button--liked');
             post.likes--;
+            likedPost.splice(post.id, 1);
+            console.log(likedPost);
         } else {
             aElement.classList.add('like-button--liked'); 
             post.likes++;
+            likedPost.push(post.id);
+            console.log(likedPost);
         }
-        counterLikeElement.innerHTML = `Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone`;
+        event.preventDefault();
+        counterLikeElement.innerHTML = `Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone`;
     });
 })
